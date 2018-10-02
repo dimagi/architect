@@ -122,8 +122,7 @@ class Partition(BasePartition):
             pk=' AND '.join('{pk} = NEW.{pk}'.format(pk=pk) for pk in self.pks),
             parent_table=self.table,
             column='"{0}"'.format(self.column_name),
-            safe_tablename=self.safe_tablename
-            column='"{0}"'.format(self.column_name),
+            safe_tablename=self.safe_tablename,
             return_val='NULL' if self.return_null else 'NEW'
         ))
 
