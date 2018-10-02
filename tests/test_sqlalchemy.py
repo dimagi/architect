@@ -143,7 +143,7 @@ class PostgresqlSqlAlchemyPartitionTestCase(unittest.TestCase):
         self.session.commit()
 
         object2 = self.session.query(PgsqlRangeDateDayReturnNULL).from_statement(
-            text('SELECT * FROM test_rangedateday_return_null_y2014d105 WHERE id = :id')
+            text('SELECT * FROM tbl_667814817492d1843c9d91d06f3555c5_y2014d105 WHERE id = :id')
         ).params(id=object1.id).first()
 
         self.assertTrue(object1.name, object2.name)
@@ -382,10 +382,10 @@ class PostgresqlSqlAlchemyPartitionTestCase(unittest.TestCase):
         self.session.commit()
 
         object2 = self.session.query(PgsqlRangeStringFirstchars2ReturnNULL).from_statement(
-            text('SELECT * FROM test_rangestring_firstchars2_return_null_ab WHERE id = :id')
+            text('SELECT * FROM tbl_a90c0c0e1882e3b0495c0463cc628794_ab WHERE id = :id')
         ).params(id=object1.id).first()
         object4 = self.session.query(PgsqlRangeStringFirstchars5ReturnNULL).from_statement(
-            text('SELECT * FROM test_rangestring_firstchars5_return_null_abcde WHERE id = :id')
+            text('SELECT * FROM tbl_a56c045d05b09ad40cb8e4790d32768f_abcde WHERE id = :id')
         ).params(id=object3.id).first()
 
         self.assertTrue(object1.name, object2.name)
@@ -474,10 +474,10 @@ class PostgresqlSqlAlchemyPartitionTestCase(unittest.TestCase):
         self.session.commit()
 
         object2 = self.session.query(PgsqlRangeStringLastchars2ReturnNULL).from_statement(
-            text('SELECT * FROM test_rangestring_lastchars2_return_null_ef WHERE id = :id')
+            text('SELECT * FROM tbl_16021a4feb7b46a0d93b4b662de198ef_ef  WHERE id = :id')
         ).params(id=object1.id).first()
         object4 = self.session.query(PgsqlRangeStringLastchars5ReturnNULL).from_statement(
-            text('SELECT * FROM test_rangestring_lastchars5_return_null_bcdef WHERE id = :id')
+            text('SELECT * FROM tbl_1dc5f79e73f07b17d7023aa395390f14_bcdef  WHERE id = :id')
         ).params(id=object3.id).first()
 
         self.assertTrue(object1.name, object2.name)

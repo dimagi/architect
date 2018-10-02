@@ -233,10 +233,10 @@ class PostgresqlDjangoPartitionTestCase(unittest.TestCase):
     def test_range_string_firstchars_return_null(self):
         object1 = PgsqlRangeStringFirstchars2ReturnNULL.objects.create(id=1, name='foo', title='abcdef')
         object2 = PgsqlRangeStringFirstchars2ReturnNULL.objects.raw(
-            'SELECT * FROM test_rangestring_firstchars2_return_null_ab WHERE id = %s', [object1.id])[0]
+            'SELECT * FROM tbl_a90c0c0e1882e3b0495c0463cc628794_ab WHERE id = %s', [object1.id])[0]
         object3 = PgsqlRangeStringFirstchars5ReturnNULL.objects.create(id=1, name='foo', title='abcdef')
         object4 = PgsqlRangeStringFirstchars5ReturnNULL.objects.raw(
-            'SELECT * FROM test_rangestring_firstchars5_return_null_abcde WHERE id = %s', [object3.id])[0]
+            'SELECT * FROM tbl_a56c045d05b09ad40cb8e4790d32768f_abcde WHERE id = %s', [object3.id])[0]
 
         self.assertTrue(object1.name, object2.name)
         self.assertTrue(object3.name, object4.name)
@@ -277,10 +277,10 @@ class PostgresqlDjangoPartitionTestCase(unittest.TestCase):
     def test_range_string_lastchars_return_null(self):
         object1 = PgsqlRangeStringLastchars2ReturnNULL.objects.create(id=1, name='foo', title='abcdef')
         object2 = PgsqlRangeStringLastchars2ReturnNULL.objects.raw(
-            'SELECT * FROM test_rangestring_lastchars2_return_null_ef WHERE id = %s', [object1.id])[0]
+            'SELECT * FROM tbl_16021a4feb7b46a0d93b4b662de198ef_ef WHERE id = %s', [object1.id])[0]
         object3 = PgsqlRangeStringLastchars5ReturnNULL.objects.create(id=1, name='foo', title='abcdef')
         object4 = PgsqlRangeStringLastchars5ReturnNULL.objects.raw(
-            'SELECT * FROM test_rangestring_lastchars5_return_null_bcdef WHERE id = %s', [object3.id])[0]
+            'SELECT * FROM tbl_1dc5f79e73f07b17d7023aa395390f14_bcdef WHERE id = %s', [object3.id])[0]
 
         self.assertTrue(object1.name, object2.name)
         self.assertTrue(object3.name, object4.name)
