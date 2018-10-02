@@ -45,7 +45,7 @@ class Partition(BasePartition):
 
             definitions[definition] = '\n'.join(definitions[definition]).format(**formatters)
 
-        return self.database.execute("""
+        execute_sql = """
             -- We need to create a before insert function
             CREATE OR REPLACE FUNCTION {{safe_tablename}}_insert_child()
             RETURNS TRIGGER AS $$
@@ -72,7 +72,7 @@ class Partition(BasePartition):
                     END;
 
                     EXECUTE 'INSERT INTO ' || tablename || ' VALUES (($1).*);' USING NEW;
-                    RETURN NEW;
+                    RETURN {{return_val}};
                 END;
             $$ LANGUAGE plpgsql SECURITY DEFINER;
 
@@ -90,7 +90,9 @@ class Partition(BasePartition):
                     FOR EACH ROW EXECUTE PROCEDURE {{safe_tablename}}_insert_child();
             END IF;
             END $$;
-
+        """
+        if not self.return_null:
+            execute_sql += """
             -- Then we create a function to delete duplicate row from the master table after insert
             CREATE OR REPLACE FUNCTION {{safe_tablename}}_delete_master()
             RETURNS TRIGGER AS $$
@@ -114,11 +116,15 @@ class Partition(BasePartition):
                     FOR EACH ROW EXECUTE PROCEDURE {{safe_tablename}}_delete_master();
             END IF;
             END $$;
-        """.format(**definitions).format(
+            """
+
+        return self.database.execute(execute_sql.format(**definitions).format(
             pk=' AND '.join('{pk} = NEW.{pk}'.format(pk=pk) for pk in self.pks),
             parent_table=self.table,
             column='"{0}"'.format(self.column_name),
             safe_tablename=self.safe_tablename
+            column='"{0}"'.format(self.column_name),
+            return_val='NULL' if self.return_null else 'NEW'
         ))
 
     def exists(self):
